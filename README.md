@@ -1,7 +1,7 @@
 # gobotdemo
 Demo of Gobot functionalities
 
-## Command to compile
+## Command to compile to a Raspberry Pi Device
 
 ``` GOARM=7 GOARCH=arm GOOS=linux go build -o bb8remote bb8remote.go ```
 
