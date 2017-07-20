@@ -21,10 +21,26 @@ func main() {
 		myBB8.On("collision", func(data interface{}) {
 			collisionInfo := data.(sphero.CollisionPacket)
 			if collisionInfo.Speed > 0 {
-				fmt.Printf("Collision! %+v\n", data)
+				fmt.Printf("Collision! %+v\n", collisionInfo)
 				myBB8.SetRGB(255, 0, 0)
 				myBB8.Roll(40, uint16(180))
 				time.Sleep(time.Second * 2)
+			} else {
+				r := uint8(gobot.Rand(255))
+				g := uint8(gobot.Rand(255))
+				b := uint8(gobot.Rand(255))
+				myBB8.SetRGB(r, g, b)
+				myBB8.Roll(40, uint16(gobot.Rand(360)))
+			}
+
+		})
+
+		myBB8.On("sensordata", func(data interface{}) {
+			botinfo := data.(sphero.DataStreamingPacket)
+			fmt.Printf("[Lendo sensores]! %+v\n", botinfo)
+			if botinfo.VeloX == 0 && botinfo.VeloY == 0 {
+				fmt.Printf("\r\nTa parado! %+v\n", data)
+
 			}
 
 		})
@@ -45,6 +61,8 @@ func main() {
 
 			case "ficafrio":
 				myBB8.SetRGB(0, 0, 200)
+			case "parar":
+				myBB8.Stop()
 			}
 
 		})
